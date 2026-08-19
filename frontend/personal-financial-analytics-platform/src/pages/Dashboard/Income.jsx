@@ -1,11 +1,7 @@
-import React from 'react'
+import React from "react";
 
 const Income = () => {
-  return (
-    <div>
-      Income    
-    </div>
-  )
-}
+  return <div>Income</div>;
+};
 
-export default Income
+export default Income;
