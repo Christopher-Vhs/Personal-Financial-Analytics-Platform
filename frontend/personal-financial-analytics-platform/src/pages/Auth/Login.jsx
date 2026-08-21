@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import AuthLayout from "../../components/layouts/AuthLayout";
-import Input from "../../components/layouts/Inputs/Input";
+import { Link, useNavigate } from "react-router-dom";
+import Input from "../../components/Inputs/Input";
+import { validateEmail } from "../../utils/helper";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -10,7 +12,23 @@ const Login = () => {
   const navigate = useNavigate();
 
   //Handle Login Form Submit
-  const hadleLogin = async (e) => {};
+  const handleLogin = async (e) => {
+    e.preventDefault();
+
+    if (!validateEmail(email)) {
+      setError("Please enter a valid email address.");
+      return;
+    }
+
+    if (!password) {
+      setError("Please enter the password");
+      return;
+    }
+
+    setError("");
+
+    // Login API Call
+  };
 
   return (
     <AuthLayout>
@@ -20,7 +38,7 @@ const Login = () => {
           Please enter your details to log in to your account.
         </p>
 
-        <form onSubmit={hadleLogin}>
+        <form onSubmit={handleLogin}>
           <Input
             value={email}
             onChange={({ target }) => setEmail(target.value)}
@@ -28,6 +46,26 @@ const Login = () => {
             placeholder="john@example.com"
             type="text"
           />
+          <Input
+            value={password}
+            onChange={({ target }) => setPassword(target.value)}
+            label="Password"
+            placeholder="Min 8 characters"
+            type="password"
+          />
+
+          {error && <p className="text-red-500 text-xs pb-2.5">{error}</p>}
+
+          <button type="submit" className="btn-primary">
+            LOGIN
+          </button>
+
+          <p className="text-[13px] text-slate-800 mt-3">
+            Don't have an account?{""}
+            <Link className="font-medium text-primary underline" to="/signup">
+              SignUp
+            </Link>
+          </p>
         </form>
       </div>
     </AuthLayout>
